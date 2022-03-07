@@ -1,6 +1,6 @@
 const express=require("express");
 const app=express();
-
+app.use(logger)
 app.get("/books",(req,res)=>{
     return res.send ("printing all the books");
 })
@@ -11,7 +11,10 @@ app.get("/libraries",checkPermissions("librarian"),(req,res)=>{
 app.get("/authors",checkPermissions("author"),(req,res)=>{
     return res.send(req.permission);
 })
-
+function logger(req,res,next){
+    console.log("logger");
+    next();
+}
 function checkPermissions(x){
     return function logger(req,res,next){
         if (x=="librarian")
